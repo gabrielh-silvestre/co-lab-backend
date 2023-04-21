@@ -6,10 +6,10 @@ export interface IEventEmitter {
   register<T extends IEvent<unknown>>(
     event: T,
     handler: IEventHandler<T>,
-  ): Promise<void>;
+  ): void;
   unregister<T extends IEvent<unknown>>(
     event: T,
     handler: IEventHandler<T>,
-  ): Promise<void>;
-  unregisterAll<T extends IEvent<unknown>>(event: T): Promise<void>;
+  ): void;
+  unregisterAll<T extends IEvent<unknown>>(event: T): void;
 }

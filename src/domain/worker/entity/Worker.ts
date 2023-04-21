@@ -8,6 +8,7 @@ export class Worker implements IWorker {
   constructor(
     id: string,
     name: string,
+    email: string,
     age: number,
     salary: number,
     createdAt: Date,
@@ -16,6 +17,7 @@ export class Worker implements IWorker {
     this.props = {
       id,
       name,
+      email,
       age,
       salary,
       createdAt,
@@ -35,6 +37,10 @@ export class Worker implements IWorker {
 
   get name(): string {
     return this.props.name;
+  }
+
+  get email(): string {
+    return this.props.email;
   }
 
   get age(): number {

@@ -22,6 +22,9 @@ export class WorkerJoiValidator implements IWorkerValidator {
         'string.max': 'name must be at most 50 characters long',
         'string.empty': 'name cannot be empty',
       }),
+      email: Joi.string().email().required().messages({
+        'string.email': 'email must be a valid email',
+      }),
       age: Joi.number().greater(15).required().messages({
         'number.greater': 'age must be at least 16',
       }),
