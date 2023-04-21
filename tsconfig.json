@@ -16,6 +16,10 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@worker/domain/*": ["./src/domain/worker/*"],
+      "@shared/domain/*": ["./src/domain/shared/*"]
+    }
   }
 }
