@@ -1,14 +1,40 @@
 import type { IEventEmitter } from '@shared/domain/event/Event.emitter.interface';
 import type { IWorkerRepository } from '@worker/domain/repository/Worker.repository.interface';
+import type { ITestInput } from '@utils/types';
 
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
 import { WorkerApplicationException } from '@worker/app/exception/WorkerApplication.excpetion';
 
 import {
+  WORKER,
   WORKER_INPUT,
   mockWorkerEventEmitter,
   mockWorkerRepository,
 } from '@utils/mocks';
+
+const REGISTER_INVALID_INPUTS: ITestInput<Record<string, boolean>>[] = [
+  {
+    meta: {
+      title: 'worker id already exists',
+      expected: 'Worker already exists',
+    },
+    data: { id: true, email: false },
+  },
+  {
+    meta: {
+      title: 'worker email already exists',
+      expected: 'Worker already exists',
+    },
+    data: { id: false, email: true },
+  },
+  {
+    meta: {
+      title: 'worker id and email already exists',
+      expected: 'Worker already exists',
+    },
+    data: { id: true, email: true },
+  },
+];
 
 describe('[Application][Unit] Tests for RegisterWorkerUseCase', () => {
   let useCase: RegisterWorkerUseCase;
@@ -29,8 +55,8 @@ describe('[Application][Unit] Tests for RegisterWorkerUseCase', () => {
   });
 
   it('should register a worker', async () => {
-    repo.findById = jest.fn().mockResolvedValue(null);
-    repo.findByEmail = jest.fn().mockResolvedValue(null);
+    repo.existsById = jest.fn().mockResolvedValue(null);
+    repo.existsByEmail = jest.fn().mockResolvedValue(null);
     const dto = WORKER_INPUT;
 
     await useCase.execute(dto);
@@ -42,18 +68,21 @@ describe('[Application][Unit] Tests for RegisterWorkerUseCase', () => {
     expect(eventName).toBe('WorkerRegistered');
   });
 
-  it('should throw an error if worker already exists', async () => {
-    repo.findById = jest.fn().mockResolvedValue({});
-    repo.findByEmail = jest.fn().mockResolvedValue({});
-    const dto = WORKER_INPUT;
+  it.each(REGISTER_INVALID_INPUTS)(
+    'should throw an error when $meta.title',
+    async ({ meta, data }) => {
+      repo.existsById = jest.fn().mockResolvedValue(data.id);
+      repo.existsByEmail = jest.fn().mockResolvedValue(data.email);
+      const dto = WORKER;
 
-    const act = async () => await useCase.execute(dto);
+      const act = async () => await useCase.execute(dto);
 
-    try {
-      await act();
-    } catch (error) {
-      expect(error).toBeInstanceOf(WorkerApplicationException);
-      expect(error.message).toContain('Worker already exists');
-    }
-  });
+      try {
+        await act();
+      } catch (error) {
+        expect(error).toBeInstanceOf(WorkerApplicationException);
+        expect(error.message).toContain(meta.expected);
+      }
+    },
+  );
 });

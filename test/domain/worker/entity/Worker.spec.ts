@@ -19,6 +19,7 @@ describe('[Domain][Unit] Tests for Worker', () => {
 
     expect(typeof worker.id).toBe('string');
     expect(typeof worker.name).toBe('string');
+    expect(typeof worker.email).toBe('string');
     expect(typeof worker.age).toBe('number');
     expect(typeof worker.salary).toBe('number');
     expect(worker.createdAt).toBeInstanceOf(Date);
@@ -41,6 +42,7 @@ describe('[Domain][Unit] Tests for Worker', () => {
 
     expect(typeof workerObject.id).toBe('string');
     expect(typeof workerObject.name).toBe('string');
+    expect(typeof workerObject.email).toBe('string');
     expect(typeof workerObject.age).toBe('number');
     expect(typeof workerObject.salary).toBe('number');
     expect(workerObject.createdAt).toBeInstanceOf(Date);
