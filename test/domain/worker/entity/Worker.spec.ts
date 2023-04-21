@@ -10,6 +10,7 @@ describe('[Domain][Unit] Tests for Worker', () => {
     const worker = new Worker(
       fakeUuid,
       'name',
+      'email@email.com',
       18,
       1700,
       new Date(),
@@ -29,6 +30,7 @@ describe('[Domain][Unit] Tests for Worker', () => {
     const worker = new Worker(
       fakeUuid,
       'name',
+      'email@email.com',
       18,
       1700,
       new Date(),

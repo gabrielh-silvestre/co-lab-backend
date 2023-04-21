@@ -8,6 +8,7 @@ describe('[Domain][Unit] Tests for WorkerFactory', () => {
     const worker = WorkerFactory.create({
       id: randomUUID(),
       name: 'name',
+      email: 'email@email.com',
       age: 18,
       salary: 1700,
     });
@@ -19,6 +20,7 @@ describe('[Domain][Unit] Tests for WorkerFactory', () => {
     const worker = WorkerFactory.createFromRepository({
       id: randomUUID(),
       name: 'name',
+      email: 'email@email.com',
       age: 18,
       salary: 1700,
       createdAt: new Date(),

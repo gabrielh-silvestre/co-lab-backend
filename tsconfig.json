@@ -19,7 +19,10 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@worker/domain/*": ["./src/domain/worker/*"],
-      "@shared/domain/*": ["./src/domain/shared/*"]
+      "@shared/domain/*": ["./src/domain/shared/*"],
+      "@worker/app/*": ["./src/application/worker/*"],
+      "@shared/app/*": ["./src/application/shared/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   }
 }
