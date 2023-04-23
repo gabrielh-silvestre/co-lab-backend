@@ -9,10 +9,10 @@ export class Worker implements IWorker {
     id: string,
     name: string,
     email: string,
-    age: number,
-    salary: number,
     createdAt: Date,
     updatedAt: Date,
+    age?: number,
+    salary?: number,
   ) {
     this.props = {
       id,
@@ -44,11 +44,11 @@ export class Worker implements IWorker {
   }
 
   get age(): number {
-    return this.props.age;
+    return this.props.age ?? null;
   }
 
   get salary(): number {
-    return this.props.salary;
+    return this.props.salary ?? null;
   }
 
   get createdAt(): Date {

@@ -3,7 +3,7 @@ import * as Joi from 'joi';
 import type { IWorkerProps } from '@worker/domain/entity/Worker.interface';
 import type { IWorkerValidator } from '../Worker.validator.interface';
 
-import { WorkerDomainException } from '@worker/domain/exception/WorkerDomain.exception';
+import { WorkerValidationException } from '@worker/domain/exception/Validation.exception';
 
 export class WorkerJoiValidator implements IWorkerValidator {
   private readonly schema: Joi.Schema;
@@ -25,10 +25,10 @@ export class WorkerJoiValidator implements IWorkerValidator {
       email: Joi.string().email().required().messages({
         'string.email': 'email must be a valid email',
       }),
-      age: Joi.number().greater(15).required().messages({
+      age: Joi.number().allow(null).greater(15).messages({
         'number.greater': 'age must be at least 16',
       }),
-      salary: Joi.number().positive().required(),
+      salary: Joi.number().allow(null).positive(),
       createdAt: Joi.date().required(),
       updatedAt: Joi.date().required(),
     });
@@ -38,7 +38,7 @@ export class WorkerJoiValidator implements IWorkerValidator {
     const { error } = this.schema.validate(value);
 
     if (error) {
-      throw new WorkerDomainException(error.message);
+      throw new WorkerValidationException(error.message);
     }
   }
 }

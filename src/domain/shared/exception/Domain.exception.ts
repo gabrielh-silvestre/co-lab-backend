@@ -1,6 +1,7 @@
-export abstract class DomainException extends Error {
-  constructor(message: string) {
-    super(`[DomainException] ${message}`);
-    this.name = this.constructor.name;
+import { CustomException } from '@utils/errors/Custom.exception';
+
+export abstract class DomainException extends CustomException {
+  constructor(message: string, cause?: Error) {
+    super(`[DomainException] ${message}`, cause);
   }
 }

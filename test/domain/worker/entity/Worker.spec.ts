@@ -1,30 +1,43 @@
 import { randomUUID } from 'node:crypto';
 
+import type { ITestInput } from '@utils/types';
+
 import { Worker } from '@worker/domain/entity/Worker';
 
 const UUID = randomUUID();
 
-describe('[Domain][Unit] Tests for Worker', () => {
-  it('should create a Worker', () => {
-    const fakeUuid = UUID;
-    const worker = new Worker(
-      fakeUuid,
+const SUCCESS_WORKER_CREATE: ITestInput<Worker>[] = [
+  {
+    meta: { title: 'with age and salary', expected: 'number' },
+    data: new Worker(
+      UUID,
       'name',
       'email@email.com',
+      new Date(),
+      new Date(),
       18,
       1700,
-      new Date(),
-      new Date(),
-    );
+    ),
+  },
+  {
+    meta: { title: 'without age and salary', expected: 'object' },
+    data: new Worker(UUID, 'name', 'email@email.com', new Date(), new Date()),
+  },
+];
 
-    expect(typeof worker.id).toBe('string');
-    expect(typeof worker.name).toBe('string');
-    expect(typeof worker.email).toBe('string');
-    expect(typeof worker.age).toBe('number');
-    expect(typeof worker.salary).toBe('number');
-    expect(worker.createdAt).toBeInstanceOf(Date);
-    expect(worker.updatedAt).toBeInstanceOf(Date);
-  });
+describe('[Domain][Unit] Tests for Worker', () => {
+  it.each(SUCCESS_WORKER_CREATE)(
+    'should create a Worker $meta.title',
+    ({ meta, data }) => {
+      expect(typeof data.id).toBe('string');
+      expect(typeof data.name).toBe('string');
+      expect(typeof data.email).toBe('string');
+      expect(typeof data.age).toBe(meta.expected);
+      expect(typeof data.salary).toBe(meta.expected);
+      expect(data.createdAt).toBeInstanceOf(Date);
+      expect(data.updatedAt).toBeInstanceOf(Date);
+    },
+  );
 
   it('should convert Worker to plain object', () => {
     const fakeUuid = UUID;
@@ -32,10 +45,10 @@ describe('[Domain][Unit] Tests for Worker', () => {
       fakeUuid,
       'name',
       'email@email.com',
+      new Date(),
+      new Date(),
       18,
       1700,
-      new Date(),
-      new Date(),
     );
 
     const workerObject = worker.toObject();

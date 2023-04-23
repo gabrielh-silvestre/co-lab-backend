@@ -3,6 +3,7 @@ import type { IWorkerProps } from '@worker/domain/entity/Worker.interface';
 
 import { WorkerJoiValidator } from '@worker/domain/validator/joi/WorkerJoi.validator';
 import { DomainException } from '@shared/domain/exception/Domain.exception';
+import { WorkerValidationException } from '@worker/domain/exception/Validation.exception';
 
 import { WORKER } from '@utils/mocks';
 
@@ -198,8 +199,9 @@ describe('[Domain][Unit] Tests for WorkerJoiValidator', () => {
       try {
         act();
       } catch (error) {
-        expect(error).toBeInstanceOf(DomainException);
+        expect(error).toBeInstanceOf(WorkerValidationException);
         expect(error.message).toContain(meta.expected);
+        expect(error.toHttp()).toBe(400);
       }
     },
   );
