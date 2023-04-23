@@ -3,7 +3,7 @@ import type { IWorkerRepository } from '@worker/domain/repository/Worker.reposit
 import type { ITestInput } from '@utils/types';
 
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
-import { WorkerApplicationException } from '@worker/app/exception/WorkerApplication.excpetion';
+import { WorkerAlreadyExistsException } from '@worker/app/exception/WorkerAlreadyExists.exception';
 
 import {
   WORKER,
@@ -80,8 +80,9 @@ describe('[Application][Unit] Tests for RegisterWorkerUseCase', () => {
       try {
         await act();
       } catch (error) {
-        expect(error).toBeInstanceOf(WorkerApplicationException);
+        expect(error).toBeInstanceOf(WorkerAlreadyExistsException);
         expect(error.message).toContain(meta.expected);
+        expect(error.toHttp()).toBe(409);
       }
     },
   );

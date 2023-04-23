@@ -10,8 +10,9 @@ import type {
 import { WorkerFactory } from '@worker/domain/factory/Worker.factory';
 import { WorkerEventFactory } from '@worker/domain/factory/WorkerEvent.factory';
 
+import { WorkerAlreadyExistsException } from '@worker/app/exception/WorkerAlreadyExists.exception';
+
 import { WORKER_EVENT_EMITTER, WORKER_REPOSITORY } from '@utils/constants';
-import { WorkerApplicationException } from '@worker/app/exception/WorkerApplication.excpetion';
 
 @Injectable()
 export class RegisterWorkerUseCase {
@@ -28,7 +29,7 @@ export class RegisterWorkerUseCase {
     const existsByEmail = await this.repo.existsByEmail(email);
 
     if (existsById || existsByEmail) {
-      throw new WorkerApplicationException('Worker already exists');
+      throw new WorkerAlreadyExistsException();
     }
   }
 
