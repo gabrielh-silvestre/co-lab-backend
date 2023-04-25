@@ -4,8 +4,9 @@ import { createClient } from '@supabase/supabase-js';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
-import { WorkerMemoryRepository } from '@worker/infra/repository/memory/WorkerMemory.repository';
+import { WorkerPrismaRepository } from '@worker/infra/repository/prisma/WorkerPrisma.repository';
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
 import { WorkerController } from '@worker/infra/controller/Worker.controller';
 
@@ -20,6 +21,7 @@ import {
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    PrismaModule,
   ],
   controllers: [AppController, WorkerController],
   providers: [
@@ -43,7 +45,7 @@ import {
     },
     {
       provide: WORKER_REPOSITORY,
-      useClass: WorkerMemoryRepository,
+      useClass: WorkerPrismaRepository,
     },
   ],
 })
