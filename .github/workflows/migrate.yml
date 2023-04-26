@@ -24,4 +24,4 @@ jobs:
         run: npm ci
 
       - name: Migrate Database
-        run: npm run migrate:prod
+        run: npm run prisma:migrate:prod
