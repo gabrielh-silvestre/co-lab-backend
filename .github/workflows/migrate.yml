@@ -25,3 +25,5 @@ jobs:
 
       - name: Migrate Database
         run: npm run prisma:migrate:prod
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
