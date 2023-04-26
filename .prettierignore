@@ -1,0 +1,7 @@
+dist
+.github
+prisma
+coverage
+node_modules
+package*.json
+tsconfig*.json
