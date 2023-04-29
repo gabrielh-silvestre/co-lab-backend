@@ -15,4 +15,6 @@ export interface IEvaluationProps {
 
 export interface IEvaluation
   extends IEvaluationProps,
-    IEntity<IEvaluationProps> {}
+    IEntity<IEvaluationProps> {
+  getRating(): number;
+}

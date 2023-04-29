@@ -30,7 +30,7 @@ export class EvaluationFactory {
     );
   }
 
-  static createFromRepository(props: IEvaluationProps): Evaluation {
+  static createFromPersistence(props: IEvaluationProps): Evaluation {
     return new Evaluation(
       props.id,
       props.companyId,

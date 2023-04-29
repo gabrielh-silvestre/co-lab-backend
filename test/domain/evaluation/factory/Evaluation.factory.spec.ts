@@ -28,7 +28,7 @@ describe('[Domain][Unit] Tests for EvaluationFactory', () => {
   });
 
   it('should create a new Evaluation from repository', () => {
-    const evaluation = EvaluationFactory.createFromRepository({
+    const evaluation = EvaluationFactory.createFromPersistence({
       id: randomUUID(),
       categories: CategoryFactory.createMany(1)[0],
       companyId: randomUUID(),

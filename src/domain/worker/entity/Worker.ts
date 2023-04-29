@@ -60,6 +60,6 @@ export class Worker implements IWorker {
   }
 
   toObject(): IWorkerProps {
-    return { ...this.props };
+    return JSON.parse(JSON.stringify(this.props));
   }
 }

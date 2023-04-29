@@ -40,9 +40,9 @@ describe('[Domain][Unit] Tests for Worker', () => {
   );
 
   it('should convert Worker to plain object', () => {
-    const fakeUuid = UUID;
+    const timestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     const worker = new Worker(
-      fakeUuid,
+      UUID,
       'name',
       'email@email.com',
       new Date(),
@@ -58,7 +58,8 @@ describe('[Domain][Unit] Tests for Worker', () => {
     expect(typeof workerObject.email).toBe('string');
     expect(typeof workerObject.age).toBe('number');
     expect(typeof workerObject.salary).toBe('number');
-    expect(workerObject.createdAt).toBeInstanceOf(Date);
-    expect(workerObject.updatedAt).toBeInstanceOf(Date);
+
+    expect(workerObject.createdAt).toMatch(timestampPattern);
+    expect(workerObject.updatedAt).toMatch(timestampPattern);
   });
 });
