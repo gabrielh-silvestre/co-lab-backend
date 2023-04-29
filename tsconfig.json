@@ -24,7 +24,11 @@
       "@shared/domain/*": ["./src/domain/shared/*"],
       "@shared/app/*": ["./src/application/shared/*"],
       "@shared/infra/*": ["./src/infra/shared/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@evaluation/domain/*": ["./src/domain/evaluation/*"],
+      "@evaluation/app/*": ["./src/application/evaluation/*"],
+      "@evaluation/infra/*": ["./src/infra/evaluation/*"],
+      "@evaluation/category/*": ["./src/domain/evaluation/value-object/category/*"]
     }
   }
 }
