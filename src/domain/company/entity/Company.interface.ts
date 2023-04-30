@@ -1,8 +1,6 @@
 import type { IEntity } from '@shared/domain/entity/Entity.interface';
-import type {
-  IEvaluation,
-  IEvaluationProps,
-} from '@evaluation/domain/entity/Evaluation.interface';
+import type { IEvaluation } from '@evaluation/domain/entity/Evaluation.interface';
+import type { CreateEvaluationProps } from '@evaluation/domain/factory/Evaluation.factory';
 
 export interface ICompanyProps {
   get id(): string;
@@ -18,5 +16,5 @@ export interface ICompanyProps {
 
 export interface ICompany extends ICompanyProps, IEntity<ICompanyProps> {
   getRating(): number;
-  addEvaluation(evaluation: IEvaluationProps): void;
+  addEvaluation(evaluation: CreateEvaluationProps): void;
 }

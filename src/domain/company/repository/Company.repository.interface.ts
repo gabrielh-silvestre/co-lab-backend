@@ -5,4 +5,5 @@ export interface ICompanyRepository {
   searchByName(name: string): Promise<ICompany[]>;
 
   create(company: ICompany): Promise<void>;
+  update(company: ICompany): Promise<void>;
 }

@@ -8,8 +8,8 @@ export class CompanyMemoryRepository implements ICompanyRepository {
     this.companies = [];
   }
 
-  private existsById(id: string): boolean {
-    return !!this.companies.find((c) => c.id === id);
+  private findIndexById(id: string): number {
+    return this.companies.findIndex((c) => c.id === id);
   }
 
   async findById(id: string): Promise<ICompany> {
@@ -23,10 +23,14 @@ export class CompanyMemoryRepository implements ICompanyRepository {
   }
 
   async create(company: ICompany): Promise<void> {
-    const exists = this.existsById(company.id);
-    if (exists) throw new Error('Register already exists');
-
     this.companies.push(company);
+  }
+
+  async update(company: ICompany): Promise<void> {
+    const index = this.findIndexById(company.id);
+    if (index === -1) throw new Error('Register not found');
+
+    this.companies[index] = company;
   }
 
   populate(companies: ICompany[]): CompanyMemoryRepository {

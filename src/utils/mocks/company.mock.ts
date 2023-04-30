@@ -18,6 +18,7 @@ export const COMPANY: ICompanyProps = CompanyFactory.createMany(
 
 export const mockCompanyRepository: ICompanyRepository = {
   create: jest.fn().mockResolvedValue(undefined),
+  update: jest.fn().mockResolvedValue(undefined),
   findById: jest.fn().mockResolvedValue(undefined),
   searchByName: jest.fn().mockResolvedValue(undefined),
 };
