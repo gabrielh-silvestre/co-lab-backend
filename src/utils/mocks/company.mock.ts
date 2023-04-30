@@ -4,6 +4,7 @@ import {
   CompanyFactory,
   CreateCompanyProps,
 } from '@company/domain/factory/Company.factory';
+import { IEventEmitter } from '@shared/domain/event/Event.emitter.interface';
 
 export const COMPANY_INPUT: CreateCompanyProps = {
   name: 'Company',
@@ -21,4 +22,11 @@ export const mockCompanyRepository: ICompanyRepository = {
   update: jest.fn().mockResolvedValue(undefined),
   findById: jest.fn().mockResolvedValue(undefined),
   searchByName: jest.fn().mockResolvedValue(undefined),
+};
+
+export const mockCompanyEventEmitter: IEventEmitter = {
+  emit: jest.fn().mockResolvedValue(undefined),
+  register: jest.fn().mockResolvedValue(undefined),
+  unregister: jest.fn().mockResolvedValue(undefined),
+  unregisterAll: jest.fn().mockResolvedValue(undefined),
 };

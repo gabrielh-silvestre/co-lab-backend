@@ -18,6 +18,7 @@ import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/Se
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
 import {
+  COMPANY_EVENT_EMITTER,
   COMPANY_REPOSITORY,
   SUPABASE_CLIENT,
   WORKER_EVENT_EMITTER,
@@ -50,6 +51,13 @@ import {
     },
     {
       provide: WORKER_EVENT_EMITTER,
+      useValue: {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        emit: () => {},
+      },
+    },
+    {
+      provide: COMPANY_EVENT_EMITTER,
       useValue: {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         emit: () => {},

@@ -22,7 +22,7 @@ import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/Se
 
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
-import { COMPANY_REPOSITORY } from '@utils/constants';
+import { COMPANY_EVENT_EMITTER, COMPANY_REPOSITORY } from '@utils/constants';
 import { TIMESTPAMP_PATTERN } from '@utils/mocks';
 
 const EVALUATIONS = EvaluationFactory.createMany(5);
@@ -46,6 +46,13 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
         {
           provide: COMPANY_REPOSITORY,
           useValue: repo,
+        },
+        {
+          provide: COMPANY_EVENT_EMITTER,
+          useValue: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            emit: () => {},
+          },
         },
       ],
     }).compile();

@@ -9,8 +9,8 @@ import type {
 
 import { CompanyFactory } from '@company/domain/factory/Company.factory';
 import { EvaluationFactory } from '@evaluation/domain/factory/Evaluation.factory';
-import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
 
+import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
 import { CompanyNotFoundException } from '@company/app/exception/CompanyNotFound.exception';
 
 import { TIMESTPAMP_PATTERN, mockCompanyRepository } from '@utils/mocks';
