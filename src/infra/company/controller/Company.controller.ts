@@ -1,3 +1,4 @@
+import type { User as UserData } from '@supabase/supabase-js';
 import {
   Body,
   Controller,
@@ -7,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import type { OutputCreateCompanyDto } from '@company/app/useCase/create/CreateCompany.dto';
@@ -25,6 +27,9 @@ import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/Se
 import { CreateCompanyValidationPipe } from '../pipe/CreateCompany.pipe';
 import { AddEvaluationValidationPipe } from '../pipe/AddEvaluation.pipe';
 
+import { AuthGuard } from '@shared/infra/guard/Auth.guard';
+import { User } from '@utils/decorators/user/User.decorator';
+
 @Controller('companies')
 export class CompanyController {
   constructor(
@@ -35,6 +40,7 @@ export class CompanyController {
   ) {}
 
   @Post('create')
+  @UseGuards(AuthGuard)
   async create(
     @Body(new CreateCompanyValidationPipe()) body: CreateCompanyBody,
   ): Promise<OutputCreateCompanyDto> {
@@ -56,13 +62,16 @@ export class CompanyController {
   }
 
   @Patch(':id/add-evaluation')
+  @UseGuards(AuthGuard)
   async addEvaluation(
     @Body(new AddEvaluationValidationPipe()) body: AddEvaluationBody,
     @Param('id', ParseUUIDPipe) id: string,
+    @User() user: UserData,
   ): Promise<void> {
     return this.addEvaluationUseCase.execute({
       ...body,
       companyId: id,
+      workerId: user.id,
     });
   }
 }

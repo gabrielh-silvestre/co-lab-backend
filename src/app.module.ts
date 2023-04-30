@@ -17,7 +17,10 @@ import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompan
 import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
+import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
+
 import {
+  AUTH_GATEWAY,
   COMPANY_EVENT_EMITTER,
   COMPANY_REPOSITORY,
   SUPABASE_CLIENT,
@@ -70,6 +73,10 @@ import {
     {
       provide: COMPANY_REPOSITORY,
       useClass: CompanyPrismaRepository,
+    },
+    {
+      provide: AUTH_GATEWAY,
+      useClass: SupabaseAuthGateway,
     },
   ],
 })

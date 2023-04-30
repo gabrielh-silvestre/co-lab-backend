@@ -10,9 +10,6 @@ export class AddEvaluationValidationPipe extends JoiValidationPipe {
   constructor() {
     super(
       Joi.object<AddEvaluationBody>({
-        workerId: Joi.string()
-          .uuid({ version: 'uuidv4', separator: '-' })
-          .required(),
         comment: Joi.string().optional(),
         categories: Joi.array()
           .items(

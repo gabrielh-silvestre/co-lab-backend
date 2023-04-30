@@ -5,7 +5,6 @@ export type CreateCompanyBody = {
 };
 
 export type AddEvaluationBody = {
-  workerId: string;
   comment?: string;
   categories: {
     name: string;
