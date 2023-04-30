@@ -21,8 +21,10 @@ import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompan
 import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
 
 import { CompanyController } from '@company/infra/controller/Company.controller';
+import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
 
 import {
+  AUTH_GATEWAY,
   COMPANY_EVENT_EMITTER,
   COMPANY_REPOSITORY,
   SUPABASE_CLIENT,
@@ -54,6 +56,10 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
         {
           provide: COMPANY_REPOSITORY,
           useValue: repo,
+        },
+        {
+          provide: AUTH_GATEWAY,
+          useClass: SupabaseAuthGateway,
         },
         {
           provide: COMPANY_EVENT_EMITTER,

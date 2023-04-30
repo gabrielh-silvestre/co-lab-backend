@@ -1,4 +1,5 @@
 import type { Request } from 'express';
+import type { User } from '@supabase/supabase-js';
 import {
   CanActivate,
   ExecutionContext,
@@ -6,13 +7,13 @@ import {
   Inject,
 } from '@nestjs/common';
 
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { IAuthGateway } from '../gateway/auth/Auth.gateway.interface';
 
-import { SUPABASE_CLIENT } from '@utils/constants';
+import { AUTH_GATEWAY } from '@utils/constants';
 
 export class AuthGuard implements CanActivate {
   constructor(
-    @Inject(SUPABASE_CLIENT) private readonly supabase: SupabaseClient,
+    @Inject(AUTH_GATEWAY) private readonly authGateway: IAuthGateway<User>,
   ) {}
 
   private extractTokenFromHeader(request: Request): string {
@@ -34,14 +35,10 @@ export class AuthGuard implements CanActivate {
 
     const token = this.extractTokenFromHeader(request);
 
-    const {
-      data: { user },
-      error,
-    } = await this.supabase.auth.getUser(token);
+    const user = await this.authGateway.verifyToken(token);
 
     request.user = user;
 
-    if (error) throw new ForbiddenException(error.message, { cause: error });
     return true;
   }
 }
