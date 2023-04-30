@@ -30,10 +30,16 @@ export class FindCompanyByIdUseCase {
       }),
     );
 
+    const evaluationObj = evaluation.toObject();
+    const { id, comment, createdAt, updatedAt } = evaluationObj;
+
     return {
-      ...evaluation.toObject(),
+      id,
+      comment,
       rating: evaluation.getRating(),
       categories,
+      createdAt,
+      updatedAt,
     };
   }
 
