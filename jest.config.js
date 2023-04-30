@@ -9,4 +9,5 @@ module.exports = {
   coverageDirectory: './coverage',
   testEnvironment: 'node',
   moduleNameMapper,
+  clearMocks: true,
 };

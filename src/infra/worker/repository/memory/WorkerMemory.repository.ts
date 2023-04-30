@@ -53,7 +53,7 @@ export class WorkerMemoryRepository implements IWorkerRepository {
   }
 
   populate(workers: Worker[]): WorkerMemoryRepository {
-    this.workers = workers;
+    this.workers = [...workers];
     return this;
   }
 }
