@@ -61,7 +61,7 @@ describe('[Application][Unit] Tests for FindCompanyByIdUseCase', () => {
     });
     expect(
       foundCompany.evaluations[0],
-    ).toMatchObject<FindCompanyByIdEvaluationDto>({
+    ).toStrictEqual<FindCompanyByIdEvaluationDto>({
       id: expect.any(String),
       comment: expect.any(String),
       categories: expect.any(Array),
@@ -71,7 +71,7 @@ describe('[Application][Unit] Tests for FindCompanyByIdUseCase', () => {
     });
     expect(
       foundCompany.evaluations[0].categories[0],
-    ).toMatchObject<FindCompanyByIdCategoryDto>({
+    ).toStrictEqual<FindCompanyByIdCategoryDto>({
       name: expect.any(String),
       rating: expect.any(Number),
     });
