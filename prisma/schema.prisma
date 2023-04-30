@@ -19,3 +19,35 @@ model Worker {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Category {
+  id     String @id
+  name   String
+  rating Int
+
+  evaluationId String
+  Evaluation   Evaluation @relation(fields: [evaluationId], references: [id])
+}
+
+model Evaluation {
+  id          String   @id
+  workerId    String
+  companyId   String
+  categoryIds String[]
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  categories Category[] @relation()
+  company    Company    @relation(fields: [companyId], references: [id])
+}
+
+model Company {
+  id          String       @id
+  name        String
+  image       String?
+  description String?
+  evaluations Evaluation[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}

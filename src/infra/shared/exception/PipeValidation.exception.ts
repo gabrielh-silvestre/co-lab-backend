@@ -4,7 +4,7 @@ import { InfraException } from '@shared/infra/exception/Infra.exception';
 
 export class PipeValidationException extends InfraException {
   constructor(message: string, cause?: Error) {
-    super(`[WorkerException] ${message}`, cause);
+    super(`[PipeValidationException] ${message}`, cause);
   }
 
   toHttp(): number {

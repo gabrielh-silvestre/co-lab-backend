@@ -4,6 +4,8 @@ import type { ITestInput } from '@utils/types';
 
 import { Worker } from '@worker/domain/entity/Worker';
 
+import { TIMESTPAMP_PATTERN } from '@utils/mocks';
+
 const UUID = randomUUID();
 
 const SUCCESS_WORKER_CREATE: ITestInput<Worker>[] = [
@@ -40,9 +42,8 @@ describe('[Domain][Unit] Tests for Worker', () => {
   );
 
   it('should convert Worker to plain object', () => {
-    const fakeUuid = UUID;
     const worker = new Worker(
-      fakeUuid,
+      UUID,
       'name',
       'email@email.com',
       new Date(),
@@ -58,7 +59,8 @@ describe('[Domain][Unit] Tests for Worker', () => {
     expect(typeof workerObject.email).toBe('string');
     expect(typeof workerObject.age).toBe('number');
     expect(typeof workerObject.salary).toBe('number');
-    expect(workerObject.createdAt).toBeInstanceOf(Date);
-    expect(workerObject.updatedAt).toBeInstanceOf(Date);
+
+    expect(workerObject.createdAt).toMatch(TIMESTPAMP_PATTERN);
+    expect(workerObject.updatedAt).toMatch(TIMESTPAMP_PATTERN);
   });
 });
