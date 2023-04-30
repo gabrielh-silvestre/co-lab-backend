@@ -22,11 +22,19 @@ import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/Se
 
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
-import { COMPANY_EVENT_EMITTER, COMPANY_REPOSITORY } from '@utils/constants';
+import {
+  COMPANY_EVENT_EMITTER,
+  COMPANY_REPOSITORY,
+  SUPABASE_CLIENT,
+} from '@utils/constants';
 import { TIMESTPAMP_PATTERN } from '@utils/mocks';
 
 const EVALUATIONS = EvaluationFactory.createMany(5);
 const COMPANIES = CompanyFactory.createMany(10, EVALUATIONS);
+
+const MOCK_USER: any = {
+  id: randomUUID(),
+};
 
 describe('[Infra][Integration] Tests for CompanyController', () => {
   let controller: CompanyController;
@@ -52,6 +60,14 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
           useValue: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             emit: () => {},
+          },
+        },
+        {
+          provide: SUPABASE_CLIENT,
+          useValue: {
+            auth: {
+              getUser: () => ({}),
+            },
           },
         },
       ],
@@ -90,12 +106,15 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
   it('should add an evaluation to a company', async () => {
     const initialLength = COMPANIES[0].evaluations.length;
     const dto: AddEvaluationBody = {
-      workerId: randomUUID(),
       categories: CategoryFactory.createMany(1)[0],
       comment: 'comment',
     };
 
-    const response = await controller.addEvaluation(dto, COMPANIES[0].id);
+    const response = await controller.addEvaluation(
+      dto,
+      COMPANIES[0].id,
+      MOCK_USER,
+    );
     expect(response).toBeUndefined();
 
     const foundCompany = await repo.findById(COMPANIES[0].id);

@@ -28,7 +28,6 @@ describe('[Infra][Unit] Tests for AddEvaluationValidationPipe', () => {
       }));
     const body: AddEvaluationBody = {
       categories,
-      workerId: randomUUID(),
       comment: 'comment',
     };
 
