@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
 import type {
@@ -8,6 +8,7 @@ import type {
 
 import { COMPANY_REPOSITORY } from '@utils/constants';
 
+@Injectable()
 export class SearchCompanyByNameUseCase {
   constructor(
     @Inject(COMPANY_REPOSITORY) private readonly repo: ICompanyRepository,
