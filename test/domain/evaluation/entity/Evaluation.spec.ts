@@ -71,22 +71,22 @@ describe('[Domain][Unit] Tests for Evaluation', () => {
 
   it('should calc and return the rating', () => {
     const categories = [
-      CategoryFactory.createFromRepository({
+      CategoryFactory.createFromPersistence({
         id: UUID,
         name: 'diversidade',
         rating: 2,
       }),
-      CategoryFactory.createFromRepository({
+      CategoryFactory.createFromPersistence({
         id: UUID,
         name: 'equidade',
         rating: 3,
       }),
-      CategoryFactory.createFromRepository({
+      CategoryFactory.createFromPersistence({
         id: UUID,
         name: 'inclusão',
         rating: 4,
       }),
-      CategoryFactory.createFromRepository({
+      CategoryFactory.createFromPersistence({
         id: UUID,
         name: 'liderança',
         rating: 5,

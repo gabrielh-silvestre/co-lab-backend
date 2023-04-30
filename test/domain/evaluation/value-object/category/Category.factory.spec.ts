@@ -14,7 +14,7 @@ describe('[Domain][Unit] Tests for CategoryFactory value-object', () => {
   });
 
   it('should create a new Category from repository', () => {
-    const category = CategoryFactory.createFromRepository({
+    const category = CategoryFactory.createFromPersistence({
       id: randomUUID(),
       name: 'diversidade',
       rating: 5,

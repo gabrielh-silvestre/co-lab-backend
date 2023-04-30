@@ -35,7 +35,7 @@ export class EvaluationFactory {
       props.id,
       props.companyId,
       props.workerId,
-      props.categories.map(CategoryFactory.createFromRepository),
+      props.categories.map(CategoryFactory.createFromPersistence),
       props.createdAt,
       props.updatedAt,
       props.comment,

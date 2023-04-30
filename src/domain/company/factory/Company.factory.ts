@@ -4,6 +4,7 @@ import type { ICompanyProps } from '../entity/Company.interface';
 import type { IEvaluation } from '@evaluation/domain/entity/Evaluation.interface';
 
 import { Company } from '../entity/Company';
+import { EvaluationFactory } from '@evaluation/domain/factory/Evaluation.factory';
 
 export interface CreateCompanyProps {
   name: string;
@@ -32,7 +33,7 @@ export class CompanyFactory {
     return new Company(
       props.id,
       props.name,
-      props.evaluations,
+      props.evaluations.map(EvaluationFactory.createFromPersistence),
       props.createdAt,
       props.updatedAt,
       props.description,

@@ -14,8 +14,8 @@ export class CategoryFactory {
     return new Category(randomUUID(), name, rating);
   }
 
-  static createFromRepository(props: ICategoryProps): Category {
-    return new Category(props.id, props.name, props.rating);
+  static createFromPersistence({ id, name, rating }: ICategoryProps): Category {
+    return new Category(id, name, rating);
   }
 
   static createMany(n: number): Category[][] {

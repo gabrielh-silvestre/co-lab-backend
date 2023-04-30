@@ -10,7 +10,7 @@ import { WorkerPrismaRepository } from '@worker/infra/repository/prisma/WorkerPr
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
 import { WorkerController } from '@worker/infra/controller/Worker.controller';
 
-import { CompanyMemoryRepository } from '@company/infra/repository/memory/CompanyMemory.repository';
+import { CompanyPrismaRepository } from '@company/infra/repository/prisma/CompanyPrisma.repository';
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
@@ -61,7 +61,7 @@ import {
     },
     {
       provide: COMPANY_REPOSITORY,
-      useClass: CompanyMemoryRepository,
+      useClass: CompanyPrismaRepository,
     },
   ],
 })
