@@ -1,18 +1,17 @@
-import * as Joi from 'joi';
+import { randomUUID } from 'node:crypto';
 
-import { JoiValidationPipe } from '@worker/infra/pipe/validation/JoiValidation.pipe';
-import { InfraException } from '@shared/infra/exception/Infra.exception';
+import type { RegisterWorkerBody } from '@worker/infra/controller/Woker.controller.dto';
 
-describe('[Infra][Unit] Tests for JoiValidationPipe', () => {
+import { JoiValidationPipe } from '@shared/infra/pipe/validation/JoiValidation.pipe';
+import { RegisterWorkerPipe } from '@worker/infra/pipe/RegisterWorker.pipe';
+
+import { PipeValidationException } from '@shared/infra/exception/PipeValidation.exception';
+
+describe('[Infra][Unit] Tests for RegisterWorkValidationPipe', () => {
   let pipe: JoiValidationPipe;
 
   beforeEach(() => {
-    const schema = Joi.object({
-      name: Joi.string().required(),
-      email: Joi.string().email().required(),
-    });
-
-    pipe = new JoiValidationPipe(schema);
+    pipe = new RegisterWorkerPipe();
   });
 
   it('should create a JoiValidationPipe', () => {
@@ -21,7 +20,8 @@ describe('[Infra][Unit] Tests for JoiValidationPipe', () => {
   });
 
   it('should validate a valid body', () => {
-    const body = {
+    const body: RegisterWorkerBody = {
+      id: randomUUID(),
       name: 'name',
       email: 'email@email.com',
     };
@@ -44,7 +44,7 @@ describe('[Infra][Unit] Tests for JoiValidationPipe', () => {
       act();
     } catch (error) {
       expect(error).toBeDefined();
-      expect(error).toBeInstanceOf(InfraException);
+      expect(error).toBeInstanceOf(PipeValidationException);
       expect(error.toHttp()).toBe(422);
     }
   });
