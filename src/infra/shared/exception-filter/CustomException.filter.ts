@@ -50,5 +50,9 @@ export class CustomExceptionFilter implements ExceptionFilter<unknown> {
     }
 
     response.status(body.statusCode).json(body);
+
+    if (body.statusCode >= 500) {
+      console.error(exception);
+    }
   }
 }
