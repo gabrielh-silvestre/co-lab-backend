@@ -6,7 +6,8 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import axiod from 'https://deno.land/x/axiod@0.26.2/mod.ts';
 
 serve(async (req) => {
-  const { id, email } = await req.json();
+  const body = await req.json();
+  const { id, email } = body.record;
 
   const apiUrl = Deno.env.get('API_URL') as string;
 
