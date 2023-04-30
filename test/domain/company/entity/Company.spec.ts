@@ -7,6 +7,8 @@ import type { IEvaluation } from '@evaluation/domain/entity/Evaluation.interface
 import { Company } from '@company/domain/entity/Company';
 import { EvaluationFactory } from '@evaluation/domain/factory/Evaluation.factory';
 
+import { TIMESTPAMP_PATTERN } from '@utils/mocks';
+
 const UUID = randomUUID();
 
 const SUCCESS_COMPANY_CREATE: ITestInput<ICompany>[] = [
@@ -44,7 +46,6 @@ describe('[Domain][Unit] Tests for Company', () => {
   );
 
   it('should convert Company to plain object', () => {
-    const timestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     const company = new Company(
       UUID,
       'name',
@@ -63,8 +64,8 @@ describe('[Domain][Unit] Tests for Company', () => {
     expect(typeof companyObject.image).toBe('string');
     expect(Array.isArray(companyObject.evaluations)).toBe(true);
 
-    expect(companyObject.createdAt).toMatch(timestampPattern);
-    expect(companyObject.updatedAt).toMatch(timestampPattern);
+    expect(companyObject.createdAt).toMatch(TIMESTPAMP_PATTERN);
+    expect(companyObject.updatedAt).toMatch(TIMESTPAMP_PATTERN);
   });
 
   it('should calculate the rating', () => {

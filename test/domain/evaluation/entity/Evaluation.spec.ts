@@ -5,6 +5,8 @@ import type { ITestInput } from '@utils/types';
 import { Evaluation } from '@evaluation/domain/entity/Evaluation';
 import { CategoryFactory } from '@evaluation/category/Category.factory';
 
+import { TIMESTPAMP_PATTERN } from '@utils/mocks';
+
 const UUID = randomUUID();
 const CATEGORIES = CategoryFactory.createMany(1)[0];
 
@@ -44,7 +46,6 @@ describe('[Domain][Unit] Tests for Evaluation', () => {
   );
 
   it('should convert Evaluation to plain object', () => {
-    const timestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     const evaluation = new Evaluation(
       UUID,
       UUID,
@@ -64,8 +65,8 @@ describe('[Domain][Unit] Tests for Evaluation', () => {
     expect(typeof evaluationObject.comment).toBe('string');
     expect(Array.isArray(evaluationObject.categories)).toBe(true);
 
-    expect(evaluationObject.createdAt).toMatch(timestampPattern);
-    expect(evaluationObject.updatedAt).toMatch(timestampPattern);
+    expect(evaluationObject.createdAt).toMatch(TIMESTPAMP_PATTERN);
+    expect(evaluationObject.updatedAt).toMatch(TIMESTPAMP_PATTERN);
   });
 
   it('should calc and return the rating', () => {

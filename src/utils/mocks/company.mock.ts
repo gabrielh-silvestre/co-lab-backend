@@ -1,4 +1,5 @@
-import { ICompanyProps } from '@company/domain/entity/Company.interface';
+import type { ICompanyProps } from '@company/domain/entity/Company.interface';
+import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
 import {
   CompanyFactory,
   CreateCompanyProps,
@@ -14,3 +15,9 @@ export const COMPANY: ICompanyProps = CompanyFactory.createMany(
   1,
   [],
 )[0].toObject();
+
+export const mocCompanyRepository: ICompanyRepository = {
+  create: jest.fn().mockResolvedValue(undefined),
+  findById: jest.fn().mockResolvedValue(undefined),
+  searchByName: jest.fn().mockResolvedValue(undefined),
+};

@@ -4,6 +4,8 @@ import type { ITestInput } from '@utils/types';
 
 import { Worker } from '@worker/domain/entity/Worker';
 
+import { TIMESTPAMP_PATTERN } from '@utils/mocks';
+
 const UUID = randomUUID();
 
 const SUCCESS_WORKER_CREATE: ITestInput<Worker>[] = [
@@ -40,7 +42,6 @@ describe('[Domain][Unit] Tests for Worker', () => {
   );
 
   it('should convert Worker to plain object', () => {
-    const timestampPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
     const worker = new Worker(
       UUID,
       'name',
@@ -59,7 +60,7 @@ describe('[Domain][Unit] Tests for Worker', () => {
     expect(typeof workerObject.age).toBe('number');
     expect(typeof workerObject.salary).toBe('number');
 
-    expect(workerObject.createdAt).toMatch(timestampPattern);
-    expect(workerObject.updatedAt).toMatch(timestampPattern);
+    expect(workerObject.createdAt).toMatch(TIMESTPAMP_PATTERN);
+    expect(workerObject.updatedAt).toMatch(TIMESTPAMP_PATTERN);
   });
 });

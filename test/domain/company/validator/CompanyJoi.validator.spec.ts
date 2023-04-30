@@ -6,7 +6,7 @@ import type { ICompanyProps } from '@company/domain/entity/Company.interface';
 import { CompanyJoiValidator } from '@company/domain/validator/joi/CompanyJoi.validator';
 import { CompanyValidationException } from '@company/domain/exception/Validation.exception';
 
-import { COMPANY } from '@utils/mocks/company.mock';
+import { COMPANY } from '@utils/mocks';
 
 const INVALID_COMPANY_INPUTS: ITestInput<ICompanyProps>[] = [
   {

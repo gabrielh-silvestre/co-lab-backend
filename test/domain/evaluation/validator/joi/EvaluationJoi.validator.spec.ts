@@ -6,7 +6,7 @@ import type { IEvaluationProps } from '@evaluation/domain/entity/Evaluation.inte
 import { EvaluationJoiValidator } from '@evaluation/domain/validator/joi/EvaluationJoi.validator';
 import { EvaluationValidationException } from '@evaluation/domain/exception/Validation.exception';
 
-import { EVALUATION } from '@utils/mocks/evaluation.mock';
+import { EVALUATION } from '@utils/mocks';
 
 const INVALID_EVALUATION_INPUTS: ITestInput<IEvaluationProps>[] = [
   {
