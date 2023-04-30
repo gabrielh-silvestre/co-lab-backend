@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -21,6 +22,9 @@ import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEval
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
 import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
 
+import { CreateCompanyValidationPipe } from '../pipe/CreateCompany.pipe';
+import { AddEvaluationValidationPipe } from '../pipe/AddEvaluation.pipe';
+
 @Controller('companies')
 export class CompanyController {
   constructor(
@@ -32,7 +36,7 @@ export class CompanyController {
 
   @Post('create')
   async create(
-    @Body() body: CreateCompanyBody,
+    @Body(new CreateCompanyValidationPipe()) body: CreateCompanyBody,
   ): Promise<OutputCreateCompanyDto> {
     return this.createUseCase.execute(body);
   }
@@ -45,14 +49,16 @@ export class CompanyController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<OutputFindCompanyByIdDto> {
+  async findById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<OutputFindCompanyByIdDto> {
     return this.findByIdUseCase.execute({ id });
   }
 
   @Patch(':id/add-evaluation')
   async addEvaluation(
-    @Body() body: AddEvaluationBody,
-    @Param('id') id: string,
+    @Body(new AddEvaluationValidationPipe()) body: AddEvaluationBody,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<void> {
     return this.addEvaluationUseCase.execute({
       ...body,
