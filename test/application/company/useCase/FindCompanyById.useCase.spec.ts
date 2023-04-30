@@ -13,7 +13,7 @@ import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompan
 
 import { CompanyNotFoundException } from '@company/app/exception/CompanyNotFound.exception';
 
-import { TIMESTPAMP_PATTERN, mocCompanyRepository } from '@utils/mocks';
+import { TIMESTPAMP_PATTERN, mockCompanyRepository } from '@utils/mocks';
 
 describe('[Application][Unit] Tests for FindCompanyByIdUseCase', () => {
   let useCase: FindCompanyByIdUseCase;
@@ -21,7 +21,7 @@ describe('[Application][Unit] Tests for FindCompanyByIdUseCase', () => {
   let repo: ICompanyRepository;
 
   beforeEach(() => {
-    repo = mocCompanyRepository;
+    repo = mockCompanyRepository;
 
     useCase = new FindCompanyByIdUseCase(repo);
   });
@@ -49,7 +49,7 @@ describe('[Application][Unit] Tests for FindCompanyByIdUseCase', () => {
 
     const foundCompany = await useCase.execute({ id: company.id });
 
-    expect(foundCompany).toMatchObject<OutputFindCompanyByIdDto>({
+    expect(foundCompany).toStrictEqual<OutputFindCompanyByIdDto>({
       id: expect.any(String),
       name: expect.any(String),
       description: expect.any(String),
