@@ -1,5 +1,4 @@
 import { fail } from 'assert';
-import { randomUUID } from 'node:crypto';
 
 import type { ITestInput } from '@utils/types';
 import type { IEvaluationProps } from '@evaluation/domain/entity/Evaluation.interface';
@@ -8,8 +7,6 @@ import { EvaluationJoiValidator } from '@evaluation/domain/validator/joi/Evaluat
 import { EvaluationValidationException } from '@evaluation/domain/exception/Validation.exception';
 
 import { EVALUATION } from '@utils/mocks/evaluation.mock';
-
-const UUID = randomUUID();
 
 const INVALID_EVALUATION_INPUTS: ITestInput<IEvaluationProps>[] = [
   {
@@ -163,8 +160,8 @@ const INVALID_EVALUATION_CATEGORIES: ITestInput<IEvaluationProps>[] = [
       categories: [
         EVALUATION.categories[0],
         EVALUATION.categories[1],
-        { id: UUID, name: 'invalid-category' as any, rating: 1 },
-        { id: UUID, name: 'invalid-category' as any, rating: 1 },
+        { ...EVALUATION.categories[2], name: 'invalid-category' as any },
+        { ...EVALUATION.categories[3], name: 'invalid-category' as any },
       ],
     },
   },

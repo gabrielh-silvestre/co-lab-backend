@@ -1,8 +1,5 @@
 import type { ICompany, ICompanyProps } from './Company.interface';
-import type {
-  IEvaluation,
-  IEvaluationProps,
-} from '@evaluation/domain/entity/Evaluation.interface';
+import type { IEvaluation } from '@evaluation/domain/entity/Evaluation.interface';
 
 import {
   CreateEvaluationProps,
@@ -12,8 +9,6 @@ import { CompanyValidatorFactory } from '../factory/CompanyValidator.factory';
 
 export class Company implements ICompany {
   private readonly props: ICompanyProps;
-
-  private readonly _evaluations: IEvaluation[];
 
   constructor(
     id: string,
@@ -29,35 +24,32 @@ export class Company implements ICompany {
       name,
       description,
       image,
-      evaluations: evaluations.map((evaluation) => evaluation.toObject()),
+      evaluations,
       createdAt,
       updatedAt,
     };
-
-    this._evaluations = evaluations;
 
     this.validate();
   }
 
   private validate(): void {
-    CompanyValidatorFactory.create().validate(this.props);
+    CompanyValidatorFactory.create().validate(this.toObject());
   }
 
   getRating(): number {
-    if (this._evaluations.length === 0) return 0;
+    if (this.props.evaluations.length === 0) return 0;
 
-    const total = this._evaluations.reduce((acc, evaluation) => {
+    const total = this.props.evaluations.reduce((acc, evaluation) => {
       return acc + evaluation.getRating();
     }, 0);
 
-    return total / this._evaluations.length;
+    return total / this.props.evaluations.length;
   }
 
   addEvaluation(evaluation: CreateEvaluationProps): void {
     const newEvaluation = EvaluationFactory.create(evaluation);
 
-    this._evaluations.push(newEvaluation);
-    this.props.evaluations.push(newEvaluation.toObject());
+    this.props.evaluations.push(newEvaluation);
   }
 
   get id(): string {
@@ -76,7 +68,7 @@ export class Company implements ICompany {
     return this.props.description ?? null;
   }
 
-  get evaluations(): IEvaluationProps[] {
+  get evaluations(): IEvaluation[] {
     return this.props.evaluations;
   }
 
@@ -89,6 +81,13 @@ export class Company implements ICompany {
   }
 
   toObject(): ICompanyProps {
-    return JSON.parse(JSON.stringify(this.props));
+    const { evaluations, ...props } = this.props;
+
+    return JSON.parse(
+      JSON.stringify({
+        ...props,
+        evaluations: evaluations.map((evaluation) => evaluation.toObject()),
+      }),
+    );
   }
 }

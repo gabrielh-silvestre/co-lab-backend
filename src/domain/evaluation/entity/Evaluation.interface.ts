@@ -1,5 +1,5 @@
 import type { IEntity } from '@shared/domain/entity/Entity.interface';
-import type { ICategoryProps } from '../value-object/category/Category.interface';
+import type { ICategory } from '../value-object/category/Category.interface';
 
 export interface IEvaluationProps {
   get id(): string;
@@ -7,7 +7,7 @@ export interface IEvaluationProps {
   get companyId(): string;
 
   get comment(): string | null;
-  get categories(): ICategoryProps[];
+  get categories(): ICategory[];
 
   get createdAt(): Date;
   get updatedAt(): Date;

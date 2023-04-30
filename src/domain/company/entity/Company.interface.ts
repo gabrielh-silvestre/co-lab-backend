@@ -1,5 +1,8 @@
 import type { IEntity } from '@shared/domain/entity/Entity.interface';
-import type { IEvaluationProps } from '@evaluation/domain/entity/Evaluation.interface';
+import type {
+  IEvaluation,
+  IEvaluationProps,
+} from '@evaluation/domain/entity/Evaluation.interface';
 
 export interface ICompanyProps {
   get id(): string;
@@ -7,7 +10,7 @@ export interface ICompanyProps {
   get image(): string | null;
   get description(): string | null;
 
-  get evaluations(): IEvaluationProps[];
+  get evaluations(): IEvaluation[];
 
   get createdAt(): Date;
   get updatedAt(): Date;

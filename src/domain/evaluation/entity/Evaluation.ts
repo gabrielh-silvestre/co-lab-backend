@@ -1,15 +1,10 @@
-import type {
-  ICategory,
-  ICategoryProps,
-} from '../value-object/category/Category.interface';
+import type { ICategory } from '../value-object/category/Category.interface';
 import type { IEvaluation, IEvaluationProps } from './Evaluation.interface';
 
 import { EvaluationValidatorFactory } from '../factory/EvaluationValidator.factory';
 
 export class Evaluation implements IEvaluation {
   private readonly props: IEvaluationProps;
-
-  private readonly _categories: ICategory[];
 
   constructor(
     id: string,
@@ -25,21 +20,20 @@ export class Evaluation implements IEvaluation {
       workerId,
       companyId,
       comment,
-      categories: categories.map((category) => category.toObject()),
+      categories,
       createdAt,
       updatedAt,
     };
-    this._categories = categories;
 
     this.validate();
   }
 
   private validate(): void {
-    EvaluationValidatorFactory.create().validate(this.props);
+    EvaluationValidatorFactory.create().validate(this.toObject());
   }
 
   getRating(): number {
-    const ratings = this._categories.map((category) => category.rating);
+    const ratings = this.props.categories.map((category) => category.rating);
     const total = ratings.reduce((acc, rating) => acc + rating, 0);
     const average = total / ratings.length;
 
@@ -62,7 +56,7 @@ export class Evaluation implements IEvaluation {
     return this.props.comment ?? null;
   }
 
-  get categories(): ICategoryProps[] {
+  get categories(): ICategory[] {
     return this.props.categories;
   }
 
@@ -75,6 +69,13 @@ export class Evaluation implements IEvaluation {
   }
 
   public toObject(): IEvaluationProps {
-    return JSON.parse(JSON.stringify(this.props));
+    const { categories, ...props } = this.props;
+
+    return JSON.parse(
+      JSON.stringify({
+        ...props,
+        categories: categories.map((category) => category.toObject()),
+      }),
+    );
   }
 }
