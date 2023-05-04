@@ -13,7 +13,7 @@ import {
 
 import type { OutputCreateCompanyDto } from '@company/app/useCase/create/CreateCompany.dto';
 import type { OutputFindCompanyByIdDto } from '@company/app/useCase/findById/FindCompanyById.dto';
-import type { OutputSearchCompanyByNameDto } from '@company/app/useCase/searchByName/SearchCompanyByName.dto';
+import type { OutputSearchCompanyDto } from '@company/app/useCase/search/SearchCompany.dto';
 import type {
   AddEvaluationBody,
   CreateCompanyBody,
@@ -22,7 +22,7 @@ import type {
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
-import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
+import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
 
 import { CreateCompanyValidationPipe } from '../pipe/CreateCompany.pipe';
 import { AddEvaluationValidationPipe } from '../pipe/AddEvaluation.pipe';
@@ -36,7 +36,7 @@ export class CompanyController {
     private readonly createUseCase: CreateCompanyUseCase,
     private readonly addEvaluationUseCase: AddEvaluationUseCase,
     private readonly findByIdUseCase: FindCompanyByIdUseCase,
-    private readonly searchByNameUseCase: SearchCompanyByNameUseCase,
+    private readonly searchCompanyUseCase: SearchCompanyUseCase,
   ) {}
 
   @Post('create')
@@ -48,10 +48,16 @@ export class CompanyController {
   }
 
   @Get('search')
-  async searchByName(
-    @Query('name') name: string,
-  ): Promise<OutputSearchCompanyByNameDto[]> {
-    return this.searchByNameUseCase.execute({ name });
+  async search(
+    @Query('field') field?: 'name' | 'description',
+    @Query('value') value?: string,
+    @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
+  ): Promise<OutputSearchCompanyDto[]> {
+    return this.searchCompanyUseCase.execute({
+      query: { search: { field, value } },
+      pagination: { limit, offset },
+    });
   }
 
   @Get(':id')

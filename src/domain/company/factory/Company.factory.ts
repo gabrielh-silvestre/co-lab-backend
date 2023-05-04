@@ -43,12 +43,14 @@ export class CompanyFactory {
 
   static createMany(n: number, evaluations: IEvaluation[]): Company[] {
     return Array.from({ length: n }, () => {
-      const name = 'company';
-      const description = 'description';
-      const image = 'image';
+      const UUID = randomUUID();
+
+      const name = `company-${UUID}`;
+      const description = `company description ${UUID}`;
+      const image = `https://test-images.com/${UUID}.png`;
 
       return new Company(
-        randomUUID(),
+        UUID,
         name,
         evaluations,
         new Date(),
