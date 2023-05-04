@@ -46,7 +46,7 @@ export class CompanyFactory {
       const UUID = randomUUID();
 
       const name = `company-${UUID}`;
-      const description = `description ${UUID}`;
+      const description = `company description ${UUID}`;
       const image = `https://test-images.com/${UUID}.png`;
 
       return new Company(
