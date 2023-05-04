@@ -33,9 +33,10 @@ export class CompanyMemoryRepository implements ICompanyRepository {
     }
 
     if (limit) {
-      if (!offset) throw new Error('Offset is required when limit is set');
-
-      companies = companies.slice(offset, offset + limit);
+      companies = companies.slice(
+        Number(offset ?? 0),
+        Number(offset ?? 0) + Number(limit),
+      );
     }
 
     return companies;

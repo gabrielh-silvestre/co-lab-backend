@@ -47,34 +47,24 @@ const COMPANY_SEARCHS: ITestInput<CompanyQuery>[] = [
   },
   {
     meta: {
-      title: 'should be able to set a limit and offset of companies',
-      expected: [COMPANIES[1]],
-    },
-    data: { limit: 1, offset: 1 },
-  },
-];
-
-const COMPANY_SEARCHS_FAILS: ITestInput<CompanyQuery>[] = [
-  {
-    meta: {
-      title: 'should throw an error if offset is not set',
-      expected: new Error('Offset is required when limit is set'),
+      title: 'should return be able to set a limit of companies',
+      expected: [...COMPANIES].slice(0, 1),
     },
     data: { limit: 1 },
   },
   {
     meta: {
-      title: 'should return all companies if search is not set',
-      expected: COMPANIES,
+      title: 'should be able to set a limit and offset of companies',
+      expected: [COMPANIES[1]],
     },
-    data: {},
+    data: { limit: 1, offset: 1 },
   },
   {
     meta: {
-      title: 'should return all companies if limit is not set',
+      title: 'should return all companies if not pass a query',
       expected: COMPANIES,
     },
-    data: { offset: 0 },
+    data: null,
   },
 ];
 
@@ -98,23 +88,6 @@ describe('[Infra][Unit] Tests for CompanyMemoryRepository', () => {
     async ({ data: query, meta: { expected } }) => {
       const result = await repository.search(query);
       expect(result).toEqual(expected);
-    },
-  );
-
-  it.each(COMPANY_SEARCHS_FAILS)(
-    '$meta.title',
-    async ({ data: query, meta: { expected } }) => {
-      const act = async () => await repository.search(query);
-
-      try {
-        const result = await act();
-        expected instanceof Error
-          ? fail('should throw an error')
-          : expect(result).toEqual(expected);
-      } catch (error) {
-        console.log(expected);
-        expect(error).toEqual(expected);
-      }
     },
   );
 
