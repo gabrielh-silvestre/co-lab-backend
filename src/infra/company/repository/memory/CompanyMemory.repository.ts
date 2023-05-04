@@ -1,5 +1,8 @@
 import type { ICompany } from '@company/domain/entity/Company.interface';
-import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
+import type {
+  CompanyQuery,
+  ICompanyRepository,
+} from '@company/domain/repository/Company.repository.interface';
 
 export class CompanyMemoryRepository implements ICompanyRepository {
   private companies: ICompany[];
@@ -16,10 +19,27 @@ export class CompanyMemoryRepository implements ICompanyRepository {
     return this.companies.find((c) => c.id === id) ?? null;
   }
 
-  async searchByName(name: string): Promise<ICompany[]> {
-    return this.companies.filter((c) =>
-      c.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()),
-    );
+  async search(query?: CompanyQuery): Promise<ICompany[]> {
+    if (!query) return this.companies;
+
+    const { search, limit, offset } = query;
+
+    let companies = [...this.companies];
+
+    if (search) {
+      companies = companies.filter((c) =>
+        c[search.field].includes(search.value),
+      );
+    }
+
+    if (limit) {
+      companies = companies.slice(
+        Number(offset ?? 0),
+        Number(offset ?? 0) + Number(limit),
+      );
+    }
+
+    return companies;
   }
 
   async create(company: ICompany): Promise<void> {

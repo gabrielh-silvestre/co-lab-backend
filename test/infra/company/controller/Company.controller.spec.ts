@@ -4,7 +4,7 @@ import { Test } from '@nestjs/testing';
 import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
 import type { OutputFindCompanyByIdDto } from '@company/app/useCase/findById/FindCompanyById.dto';
 import type { OutputCreateCompanyDto } from '@company/app/useCase/create/CreateCompany.dto';
-import type { OutputSearchCompanyByNameDto } from '@company/app/useCase/searchByName/SearchCompanyByName.dto';
+import type { OutputSearchCompanyDto } from '@company/app/useCase/search/SearchCompany.dto';
 import type {
   AddEvaluationBody,
   CreateCompanyBody,
@@ -18,7 +18,7 @@ import { CompanyMemoryRepository } from '@company/infra/repository/memory/Compan
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
-import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
+import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
 
 import { CompanyController } from '@company/infra/controller/Company.controller';
 import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
@@ -52,7 +52,7 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
         CreateCompanyUseCase,
         AddEvaluationUseCase,
         FindCompanyByIdUseCase,
-        SearchCompanyByNameUseCase,
+        SearchCompanyUseCase,
         {
           provide: COMPANY_REPOSITORY,
           useValue: repo,
@@ -144,21 +144,31 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
     });
   });
 
-  it('should search companies by name', async () => {
-    const response = await controller.searchByName('company'); // all companies have 'company' in their name
+  it.each(['name', 'description'])(
+    'should search companies by %s',
+    async (field) => {
+      const response = await controller.search(field as any, 'company'); // all companies have 'company' in their name
+
+      expect(response).toBeDefined();
+      expect(response).toHaveLength(COMPANIES.length);
+
+      response.forEach((company) => {
+        expect(company).toStrictEqual<OutputSearchCompanyDto>({
+          id: expect.any(String),
+          name: expect.stringMatching(/company/g),
+          image: expect.any(String),
+          rating: expect.any(Number),
+          createdAt: expect.stringMatching(TIMESTPAMP_PATTERN),
+          updatedAt: expect.stringMatching(TIMESTPAMP_PATTERN),
+        });
+      });
+    },
+  );
+
+  it('should limit the number of companies returned', async () => {
+    const response = await controller.search('name', 'company', 5, 0);
 
     expect(response).toBeDefined();
-    expect(response).toHaveLength(COMPANIES.length);
-
-    response.forEach((company) => {
-      expect(company).toStrictEqual<OutputSearchCompanyByNameDto>({
-        id: expect.any(String),
-        name: expect.stringMatching(/company/g),
-        image: expect.any(String),
-        rating: expect.any(Number),
-        createdAt: expect.stringMatching(TIMESTPAMP_PATTERN),
-        updatedAt: expect.stringMatching(TIMESTPAMP_PATTERN),
-      });
-    });
+    expect(response).toHaveLength(5);
   });
 });
