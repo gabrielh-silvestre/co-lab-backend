@@ -14,7 +14,7 @@ import { CompanyPrismaRepository } from '@company/infra/repository/prisma/Compan
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
-import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
+import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
 import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
@@ -42,7 +42,7 @@ import {
     CreateCompanyUseCase,
     AddEvaluationUseCase,
     FindCompanyByIdUseCase,
-    SearchCompanyByNameUseCase,
+    SearchCompanyUseCase,
     {
       provide: SUPABASE_CLIENT,
       useFactory: (configService: ConfigService) => {
