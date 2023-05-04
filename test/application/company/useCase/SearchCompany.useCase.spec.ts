@@ -1,32 +1,34 @@
 import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
 
-import { SearchCompanyByNameUseCase } from '@company/app/useCase/searchByName/SearchCompanyByName.useCase';
+import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
 
 import { mockCompanyRepository } from '@utils/mocks';
 import { CompanyFactory } from '@company/domain/factory/Company.factory';
 
-describe('[Application][Unit] Tests for SearchCompanyByNameUseCase', () => {
-  let useCase: SearchCompanyByNameUseCase;
+describe('[Application][Unit] Tests for SearchCompanyUseCase', () => {
+  let useCase: SearchCompanyUseCase;
 
   let repo: ICompanyRepository;
 
   beforeEach(() => {
     repo = mockCompanyRepository;
 
-    useCase = new SearchCompanyByNameUseCase(repo);
+    useCase = new SearchCompanyUseCase(repo);
   });
 
-  it('should create a SearchCompanyByNameUseCase', () => {
-    expect(useCase).toBeInstanceOf(SearchCompanyByNameUseCase);
+  it('should create a SearchCompanyUseCase', () => {
+    expect(useCase).toBeInstanceOf(SearchCompanyUseCase);
   });
 
   it('should search a company by name', async () => {
     const company = CompanyFactory.createMany(1, [])[0];
-    jest.mocked(repo.searchByName).mockResolvedValue([company]);
+    jest.mocked(repo.search).mockResolvedValue([company]);
 
-    const foundCompany = await useCase.execute({ name: company.name });
+    const foundCompany = await useCase.execute({
+      query: { search: { field: 'name', value: company.name } },
+    });
 
-    expect(repo.searchByName).toHaveBeenCalledTimes(1);
+    expect(repo.search).toHaveBeenCalledTimes(1);
 
     expect(foundCompany.length).not.toBe(0);
     expect(foundCompany[0].id).toBe(company.id);
@@ -34,9 +36,11 @@ describe('[Application][Unit] Tests for SearchCompanyByNameUseCase', () => {
 
   it('should return a list of found companies', async () => {
     const companies = CompanyFactory.createMany(3, []);
-    jest.mocked(repo.searchByName).mockResolvedValue(companies);
+    jest.mocked(repo.search).mockResolvedValue(companies);
 
-    const foundCompanies = await useCase.execute({ name: companies[0].name });
+    const foundCompanies = await useCase.execute({
+      query: { search: { field: 'name', value: companies[0].name } },
+    });
 
     expect(foundCompanies[0]).toStrictEqual({
       id: expect.any(String),
