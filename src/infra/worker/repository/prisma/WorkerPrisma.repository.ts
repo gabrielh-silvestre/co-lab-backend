@@ -35,6 +35,13 @@ export class WorkerPrismaRepository implements IWorkerRepository {
     });
   }
 
+  async update(worker: Worker): Promise<void> {
+    await this.prisma.worker.update({
+      where: { id: worker.id },
+      data: worker.toObject(),
+    });
+  }
+
   async delete(id: string): Promise<void> {
     await this.prisma.worker.delete({ where: { id } });
   }

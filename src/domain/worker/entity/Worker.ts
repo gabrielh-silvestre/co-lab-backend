@@ -1,9 +1,13 @@
 import type { IWorker, IWorkerProps } from './Worker.interface';
+import type { IEventEmitter } from '@shared/domain/event/Event.emitter.interface';
 
 import { WorkerValidatorFactory } from '../factory/WorkerValidator.factory';
+import { WorkerEventFactory } from '../factory/WorkerEvent.factory';
+
+import { WorkerValidationException } from '../exception/Validation.exception';
 
 export class Worker implements IWorker {
-  private readonly props: IWorkerProps;
+  private props: IWorkerProps;
 
   constructor(
     id: string,
@@ -29,6 +33,39 @@ export class Worker implements IWorker {
 
   private validate(): void {
     WorkerValidatorFactory.create().validate(this.props);
+  }
+
+  changeName(emitter: IEventEmitter, name: string): void {
+    if (name === this.props.name) {
+      throw new WorkerValidationException('Worker "name" is equal');
+    }
+
+    this.props = { ...this.props, name, updatedAt: new Date() };
+
+    this.validate();
+    emitter.emit(WorkerEventFactory.changedName(this));
+  }
+
+  changeAge(emitter: IEventEmitter, age: number): void {
+    if (age === this.props.age) {
+      throw new WorkerValidationException('Worker "age" is equal');
+    }
+
+    this.props = { ...this.props, age, updatedAt: new Date() };
+
+    this.validate();
+    emitter.emit(WorkerEventFactory.changedAge(this));
+  }
+
+  changeSalary(emitter: IEventEmitter, salary: number): void {
+    if (salary === this.props.salary) {
+      throw new WorkerValidationException('Worker "salary" is equal');
+    }
+
+    this.props = { ...this.props, salary, updatedAt: new Date() };
+
+    this.validate();
+    emitter.emit(WorkerEventFactory.changedSalary(this));
   }
 
   get id(): string {

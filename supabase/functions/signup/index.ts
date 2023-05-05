@@ -10,12 +10,13 @@ serve(async (req) => {
   const { id, email } = body.record;
 
   const apiUrl = Deno.env.get('API_URL') as string;
+  const apiKey = Deno.env.get('API_KEY') as string;
 
-  await axiod.post(`${apiUrl}/workers/register`, {
-    id,
-    email,
-    name: email.split('@')[0],
-  });
+  await axiod.post(
+    `${apiUrl}/workers/register`,
+    { id, email, name: email },
+    { headers: { 'x-api-key': apiKey } },
+  );
 
   return new Response(null, { status: 204 });
 });
