@@ -10,8 +10,11 @@ import { WorkerFactory } from '@worker/domain/factory/Worker.factory';
 import { WorkerService } from '@worker/domain/service/Worker.service';
 
 import { WorkerMemoryRepository } from '@worker/infra/repository/memory/WorkerMemory.repository';
+
+import { FindWorkerByIdUseCase } from '@worker/app/useCase/findById/FindWorkerById.useCase';
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
 import { UpdateWorkerUseCase } from '@worker/app/useCase/update/UpdateWorker.useCase';
+
 import { WorkerController } from '@worker/infra/controller/Worker.controller';
 
 import { WORKER_EVENT_EMITTER, WORKER_REPOSITORY } from '@utils/constants';
@@ -28,6 +31,7 @@ describe('[Infra][Integration] Tests for WorkerController', () => {
       controllers: [WorkerController],
       providers: [
         WorkerService,
+        FindWorkerByIdUseCase,
         RegisterWorkerUseCase,
         UpdateWorkerUseCase,
         {
@@ -84,6 +88,17 @@ describe('[Infra][Integration] Tests for WorkerController', () => {
 
     expect(response).toBeDefined();
     expect(response).toHaveProperty('id');
+    expect(response).toHaveProperty('name');
+    expect(response).toHaveProperty('email');
+    expect(response).toHaveProperty('createdAt');
+    expect(response).toHaveProperty('updatedAt');
+  });
+
+  it('should find a worker by id', async () => {
+    const response = await controller.findById(WORKERS[0].id);
+
+    expect(response).toBeDefined();
+    expect(response).toHaveProperty('id', WORKERS[0].id);
     expect(response).toHaveProperty('name');
     expect(response).toHaveProperty('email');
     expect(response).toHaveProperty('createdAt');

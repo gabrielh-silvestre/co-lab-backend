@@ -30,6 +30,7 @@ import {
   WORKER_EVENT_EMITTER,
   WORKER_REPOSITORY,
 } from '@utils/constants';
+import { FindWorkerByIdUseCase } from '@worker/app/useCase/findById/FindWorkerById.useCase';
 
 @Module({
   imports: [
@@ -42,9 +43,10 @@ import {
   providers: [
     AppService,
     WorkerService,
+    FindWorkerByIdUseCase,
     RegisterWorkerUseCase,
-    CreateCompanyUseCase,
     UpdateWorkerUseCase,
+    CreateCompanyUseCase,
     AddEvaluationUseCase,
     FindCompanyByIdUseCase,
     SearchCompanyUseCase,
