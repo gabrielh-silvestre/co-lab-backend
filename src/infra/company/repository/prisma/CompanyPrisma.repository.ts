@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import type { ICompany } from '@company/domain/entity/Company.interface';
-import type { ICompanyRepository } from '@company/domain/repository/Company.repository.interface';
+import type {
+  CompanyQuery,
+  ICompanyRepository,
+} from '@company/domain/repository/Company.repository.interface';
 
 import { CompanyFactory } from '@company/domain/factory/Company.factory';
 
@@ -9,6 +12,8 @@ import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
 export class CompanyPrismaRepository implements ICompanyRepository {
+  private static readonly DEFAULT_LIMIT = 50;
+
   constructor(private readonly prisma: PrismaService) {}
 
   async findById(id: string): Promise<ICompany> {
@@ -20,14 +25,31 @@ export class CompanyPrismaRepository implements ICompanyRepository {
     return CompanyFactory.createFromPersistence(foundCompany as any);
   }
 
-  async searchByName(name: string): Promise<ICompany[]> {
-    const foundCompanies = await this.prisma.company.findMany({
-      where: { name: { contains: name, mode: 'insensitive' } },
+  async search(query?: CompanyQuery): Promise<ICompany[]> {
+    if (!query) {
+      const companies = await this.prisma.company.findMany({
+        include: { evaluations: { include: { categories: true } } },
+        take: CompanyPrismaRepository.DEFAULT_LIMIT,
+      });
+
+      return companies.map((company) =>
+        CompanyFactory.createFromPersistence(company as any),
+      );
+    }
+
+    const { search, limit, offset } = query;
+    const take = limit ? Number(limit) - (offset ? Number(offset) : 0) : 0;
+
+    const companies = await this.prisma.company.findMany({
+      where: {
+        [search?.field]: { contains: search?.value, mode: 'insensitive' },
+      },
+      take: take ?? CompanyPrismaRepository.DEFAULT_LIMIT,
       include: { evaluations: { include: { categories: true } } },
     });
 
-    return foundCompanies.map((c) =>
-      CompanyFactory.createFromPersistence(c as any),
+    return companies.map((company) =>
+      CompanyFactory.createFromPersistence(company as any),
     );
   }
 
