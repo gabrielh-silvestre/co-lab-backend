@@ -54,6 +54,7 @@ describe('[Application][Unit] Tests for UpdateWorkerUseCase', () => {
     } catch (error) {
       expect(error).toBeDefined();
       expect(error).toBeInstanceOf(WorkerNotFoundException);
+      expect(error.toHttp()).toBe(404);
     }
   });
 });

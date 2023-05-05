@@ -103,6 +103,18 @@ describe('[Infra][Unit] Tests for WorkerMemoryRepository', () => {
     expect(repository.findById(worker.id)).resolves.toEqual(worker);
   });
 
+  it('should be able to update a worker', async () => {
+    const worker = WORKERS[0];
+    const newWorker = WorkerFactory.createFromRepository({
+      ...worker.toObject(),
+      name: 'New Name',
+    });
+
+    await repository.update(newWorker);
+
+    expect(repository.findById(worker.id)).resolves.toEqual(newWorker);
+  });
+
   it('should be able to delete a worker', async () => {
     const worker = WORKERS[0];
 
@@ -125,11 +137,21 @@ describe('[Infra][Unit] Tests for WorkerMemoryRepository', () => {
     },
   );
 
+  it('should throw an error if try to update a worker with an invalid id', async () => {
+    try {
+      await repository.update(WorkerFactory.createMany(1)[0]);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toBe('Register not found');
+    }
+  });
+
   it('should throw an error if try to delete a worker with an invalid id', async () => {
     try {
       await repository.delete('invalid-uuid');
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
+      expect(error.message).toBe('Register not found');
     }
   });
 });
