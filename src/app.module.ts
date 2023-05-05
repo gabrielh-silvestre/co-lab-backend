@@ -6,8 +6,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './modules/prisma/prisma.module';
 
+import { WorkerService } from '@worker/domain/service/Worker.service';
+
 import { WorkerPrismaRepository } from '@worker/infra/repository/prisma/WorkerPrisma.repository';
 import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWorker.useCase';
+import { UpdateWorkerUseCase } from '@worker/app/useCase/update/UpdateWorker.useCase';
 import { WorkerController } from '@worker/infra/controller/Worker.controller';
 
 import { CompanyPrismaRepository } from '@company/infra/repository/prisma/CompanyPrisma.repository';
@@ -27,6 +30,7 @@ import {
   WORKER_EVENT_EMITTER,
   WORKER_REPOSITORY,
 } from '@utils/constants';
+import { FindWorkerByIdUseCase } from '@worker/app/useCase/findById/FindWorkerById.useCase';
 
 @Module({
   imports: [
@@ -38,7 +42,10 @@ import {
   controllers: [AppController, WorkerController, CompanyController],
   providers: [
     AppService,
+    WorkerService,
+    FindWorkerByIdUseCase,
     RegisterWorkerUseCase,
+    UpdateWorkerUseCase,
     CreateCompanyUseCase,
     AddEvaluationUseCase,
     FindCompanyByIdUseCase,

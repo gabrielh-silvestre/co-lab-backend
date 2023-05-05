@@ -35,6 +35,13 @@ export class WorkerMemoryRepository implements IWorkerRepository {
     this.workers.push(worker);
   }
 
+  async update(worker: Worker): Promise<void> {
+    const index = this.findIndexById(worker.id);
+    if (index === -1) throw new Error('Register not found');
+
+    this.workers[index] = worker;
+  }
+
   async delete(id: string): Promise<void> {
     const index = this.findIndexById(id);
     if (index === -1) throw new Error('Register not found');

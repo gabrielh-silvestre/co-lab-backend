@@ -26,6 +26,7 @@ export const mockWorkerRepository: IWorkerRepository = {
   findById: jest.fn().mockResolvedValue(undefined),
   findByEmail: jest.fn().mockResolvedValue(undefined),
   create: jest.fn().mockResolvedValue(undefined),
+  update: jest.fn().mockResolvedValue(undefined),
   delete: jest.fn().mockResolvedValue(undefined),
   existsByEmail: jest.fn().mockResolvedValue(undefined),
   existsById: jest.fn().mockResolvedValue(undefined),

@@ -3,3 +3,9 @@ export type RegisterWorkerBody = {
   name: string;
   email: string;
 };
+
+export type UpdateWorkerBody = {
+  name?: string;
+  age?: number;
+  salary?: number;
+};
