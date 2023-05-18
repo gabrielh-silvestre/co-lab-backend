@@ -16,8 +16,14 @@ import { RegisterWorkerUseCase } from '@worker/app/useCase/register/RegisterWork
 import { UpdateWorkerUseCase } from '@worker/app/useCase/update/UpdateWorker.useCase';
 
 import { WorkerController } from '@worker/infra/controller/Worker.controller';
+import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
 
-import { WORKER_EVENT_EMITTER, WORKER_REPOSITORY } from '@utils/constants';
+import {
+  AUTH_GATEWAY,
+  SUPABASE_CLIENT,
+  WORKER_EVENT_EMITTER,
+  WORKER_REPOSITORY,
+} from '@utils/constants';
 import { mockWorkerEventEmitter } from '@utils/mocks';
 
 const UUID = randomUUID();
@@ -41,6 +47,18 @@ describe('[Infra][Integration] Tests for WorkerController', () => {
         {
           provide: WORKER_EVENT_EMITTER,
           useValue: mockWorkerEventEmitter,
+        },
+        {
+          provide: AUTH_GATEWAY,
+          useClass: SupabaseAuthGateway,
+        },
+        {
+          provide: SUPABASE_CLIENT,
+          useValue: {
+            auth: {
+              getUser: () => ({}),
+            },
+          },
         },
       ],
     }).compile();
