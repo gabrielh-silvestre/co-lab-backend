@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
 
 import type { OutputFindWorkerByIdDto } from '@worker/app/useCase/findById/FindWorkerById.dto';
 import type { OutputRegisterWorkerDto } from '@worker/app/useCase/register/RegisterWorker.dto';
@@ -22,6 +14,9 @@ import { FindWorkerByIdUseCase } from '@worker/app/useCase/findById/FindWorkerBy
 
 import { RegisterWorkerPipe } from '../pipe/RegisterWorker.pipe';
 import { UpdateWorkerPipe } from '../pipe/UpdateWorker.pipe';
+import { AuthGuard } from '@shared/infra/guard/Auth.guard';
+
+import { User } from '@utils/decorators/user/User.decorator';
 
 @Controller('workers')
 export class WorkerController {
@@ -38,18 +33,18 @@ export class WorkerController {
     return this.registerUseCase.execute(body);
   }
 
-  @Put(':id/update')
+  @Put('update')
+  @UseGuards(AuthGuard)
   async update(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @User('id') id: string,
     @Body(new UpdateWorkerPipe()) body: UpdateWorkerBody,
   ): Promise<OutputUpdateWorkerDto> {
     return this.updateUseCase.execute({ id, ...body });
   }
 
-  @Get(':id')
-  async findById(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-  ): Promise<OutputFindWorkerByIdDto> {
+  @Get('me')
+  @UseGuards(AuthGuard)
+  async findById(@User('id') id: string): Promise<OutputFindWorkerByIdDto> {
     return this.findByIdUseCase.execute({ id });
   }
 }
