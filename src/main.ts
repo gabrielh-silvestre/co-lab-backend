@@ -16,16 +16,17 @@ async function bootstrap() {
   const port = configService.get<number>('PORT', 3000);
 
   app.enableCors({
-    origin: (origin) => {
+    origin: (origin, cb) => {
       const allowedOriginsStr =
         configService.getOrThrow<string>('ALLOWED_ORIGINS');
       const allowedOrigins = allowedOriginsStr.split(',');
 
-      if (!origin || allowedOrigins.includes(origin)) {
-        return origin;
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        cb(null, true);
+        return;
       }
 
-      throw new Error('Origin not allowed by CORS');
+      cb(new Error('Not allowed by CORS'));
     },
     allowedHeaders: '*',
     methods: '*',
