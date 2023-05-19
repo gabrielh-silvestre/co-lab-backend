@@ -43,7 +43,7 @@ describe('[Domain][Unit] Tests for CategoryFactory value-object', () => {
     categoryNames.forEach((category) =>
       expect(category).toEqual([
         'diversidade',
-        'inclusão',
+        'crescimento',
         'equidade',
         'benefícios',
       ]),

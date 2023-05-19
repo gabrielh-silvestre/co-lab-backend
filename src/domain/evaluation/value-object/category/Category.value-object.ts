@@ -9,7 +9,7 @@ import { EvaluationValidationException } from '../../exception/Validation.except
 export class Category implements ICategory {
   private static readonly VALID_NAMES: CategoryName[] = [
     'diversidade',
-    'inclusão',
+    'crescimento',
     'equidade',
     'benefícios',
   ];

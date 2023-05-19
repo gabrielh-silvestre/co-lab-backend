@@ -21,7 +21,7 @@ export class CategoryFactory {
   static createMany(n: number): Category[][] {
     const categoryNames: CategoryName[] = [
       'diversidade',
-      'inclusão',
+      'crescimento',
       'equidade',
       'benefícios',
     ];
