@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -14,6 +15,7 @@ import {
 import type { OutputCreateCompanyDto } from '@company/app/useCase/create/CreateCompany.dto';
 import type { OutputFindCompanyByIdDto } from '@company/app/useCase/findById/FindCompanyById.dto';
 import type { OutputSearchCompanyDto } from '@company/app/useCase/search/SearchCompany.dto';
+import type { OutputGetLatestEvaluatedCompaniesDto } from '@company/app/useCase/getLatestEvaluated/GetLatestEvaluatedCompanies.dto';
 import type {
   AddEvaluationBody,
   CreateCompanyBody,
@@ -22,6 +24,7 @@ import type {
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
+import { GetLatestEvaluatedCompaniesUseCase } from '@company/app/useCase/getLatestEvaluated/GetLatestEvaluatedCompany.useCase';
 import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
 
 import { CreateCompanyValidationPipe } from '../pipe/CreateCompany.pipe';
@@ -35,6 +38,7 @@ export class CompanyController {
   constructor(
     private readonly createUseCase: CreateCompanyUseCase,
     private readonly addEvaluationUseCase: AddEvaluationUseCase,
+    private readonly getLatestEvaluatedCompaniesUseCase: GetLatestEvaluatedCompaniesUseCase,
     private readonly findByIdUseCase: FindCompanyByIdUseCase,
     private readonly searchCompanyUseCase: SearchCompanyUseCase,
   ) {}
@@ -57,6 +61,15 @@ export class CompanyController {
     return this.searchCompanyUseCase.execute({
       query: { search: { field, value } },
       pagination: { limit, offset },
+    });
+  }
+
+  @Get('/evaluations')
+  async getEvaluations(
+    @Query('size') n?: number,
+  ): Promise<OutputGetLatestEvaluatedCompaniesDto[]> {
+    return this.getLatestEvaluatedCompaniesUseCase.execute({
+      size: !!n ? Number(n) : undefined,
     });
   }
 
