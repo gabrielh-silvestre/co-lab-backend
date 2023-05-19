@@ -2,7 +2,7 @@ import type { IEntity } from '@shared/domain/entity/Entity.interface';
 
 export type CategoryName =
   | 'diversidade'
-  | 'inclusão'
+  | 'crescimento'
   | 'equidade'
   | 'benefícios';
 

@@ -15,7 +15,7 @@ export class AddEvaluationValidationPipe extends JoiValidationPipe {
           .items(
             Joi.object({
               name: Joi.string().required(),
-              rating: Joi.number().min(0).max(5).required(),
+              rating: Joi.number().min(0).max(10).required(),
             }),
           )
           .required(),
