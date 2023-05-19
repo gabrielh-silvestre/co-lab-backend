@@ -17,13 +17,18 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin) => {
-      const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGINS', []);
+      const allowedOriginsStr =
+        configService.getOrThrow<string>('ALLOWED_ORIGINS');
+      const allowedOrigins = allowedOriginsStr.split(',');
+
       if (!origin || allowedOrigins.includes(origin)) {
         return origin;
       }
 
       throw new Error('Origin not allowed by CORS');
     },
+    allowedHeaders: '*',
+    methods: '*',
   });
 
   await app.listen(port);
