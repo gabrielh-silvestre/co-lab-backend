@@ -40,6 +40,17 @@ export class CompanyPrismaRepository implements ICompanyRepository {
     const { search, limit, offset } = query;
     const take = limit ? Number(limit) - (offset ? Number(offset) : 0) : 0;
 
+    if (!search || !search?.field || !search?.value) {
+      const companies = await this.prisma.company.findMany({
+        take: take ?? CompanyPrismaRepository.DEFAULT_LIMIT,
+        include: { evaluations: { include: { categories: true } } },
+      });
+
+      return companies.map((company) =>
+        CompanyFactory.createFromPersistence(company as any),
+      );
+    }
+
     const companies = await this.prisma.company.findMany({
       where: {
         [search?.field]: { contains: search?.value, mode: 'insensitive' },
