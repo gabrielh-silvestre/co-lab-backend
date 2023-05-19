@@ -15,6 +15,17 @@ async function bootstrap() {
 
   const port = configService.get<number>('PORT', 3000);
 
+  app.enableCors({
+    origin: (origin) => {
+      const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGINS', []);
+      if (!origin || allowedOrigins.includes(origin)) {
+        return origin;
+      }
+
+      throw new Error('Origin not allowed by CORS');
+    },
+  });
+
   await app.listen(port);
 }
 bootstrap();
