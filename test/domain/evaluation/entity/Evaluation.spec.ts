@@ -88,7 +88,7 @@ describe('[Domain][Unit] Tests for Evaluation', () => {
       }),
       CategoryFactory.createFromPersistence({
         id: UUID,
-        name: 'liderança',
+        name: 'benefícios',
         rating: 5,
       }),
     ];

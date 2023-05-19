@@ -1,5 +1,6 @@
-import { ConfigService } from '@nestjs/config';
+import { ForbiddenException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 
@@ -26,7 +27,7 @@ async function bootstrap() {
         return;
       }
 
-      cb(new Error('Not allowed by CORS'));
+      cb(new ForbiddenException('Not allowed by CORS'));
     },
     allowedHeaders: '*',
     methods: '*',

@@ -22,6 +22,7 @@ export const mockCompanyRepository: ICompanyRepository = {
   update: jest.fn().mockResolvedValue(undefined),
   findById: jest.fn().mockResolvedValue(undefined),
   search: jest.fn().mockResolvedValue(undefined),
+  getLatestEvaluated: jest.fn().mockResolvedValue(undefined),
 };
 
 export const mockCompanyEventEmitter: IEventEmitter = {

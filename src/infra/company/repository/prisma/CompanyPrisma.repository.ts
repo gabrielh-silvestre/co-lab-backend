@@ -42,7 +42,7 @@ export class CompanyPrismaRepository implements ICompanyRepository {
 
     if (!search || !search?.field || !search?.value) {
       const companies = await this.prisma.company.findMany({
-        take: take ?? CompanyPrismaRepository.DEFAULT_LIMIT,
+        take: !!take ? take : CompanyPrismaRepository.DEFAULT_LIMIT,
         include: { evaluations: { include: { categories: true } } },
       });
 
@@ -55,7 +55,19 @@ export class CompanyPrismaRepository implements ICompanyRepository {
       where: {
         [search?.field]: { contains: search?.value, mode: 'insensitive' },
       },
-      take: take ?? CompanyPrismaRepository.DEFAULT_LIMIT,
+      take: !!take ? take : CompanyPrismaRepository.DEFAULT_LIMIT,
+      include: { evaluations: { include: { categories: true } } },
+    });
+
+    return companies.map((company) =>
+      CompanyFactory.createFromPersistence(company as any),
+    );
+  }
+
+  async getLatestEvaluated(n: number): Promise<ICompany[]> {
+    const companies = await this.prisma.company.findMany({
+      take: n,
+      orderBy: { updatedAt: 'desc' },
       include: { evaluations: { include: { categories: true } } },
     });
 

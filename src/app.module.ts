@@ -18,6 +18,7 @@ import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.
 import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEvaluation.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
 import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
+import { GetLatestEvaluatedCompaniesUseCase } from '@company/app/useCase/getLatestEvaluated/GetLatestEvaluatedCompany.useCase';
 import { CompanyController } from '@company/infra/controller/Company.controller';
 
 import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
@@ -50,6 +51,7 @@ import { FindWorkerByIdUseCase } from '@worker/app/useCase/findById/FindWorkerBy
     AddEvaluationUseCase,
     FindCompanyByIdUseCase,
     SearchCompanyUseCase,
+    GetLatestEvaluatedCompaniesUseCase,
     {
       provide: SUPABASE_CLIENT,
       useFactory: (configService: ConfigService) => {

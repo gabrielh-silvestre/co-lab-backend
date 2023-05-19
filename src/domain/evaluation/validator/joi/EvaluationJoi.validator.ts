@@ -39,7 +39,7 @@ export class EvaluationJoiValidator implements IEvaluationValidator {
                 'string.guid': 'id must be a valid UUID',
               }),
             name: Joi.string()
-              .valid('diversidade', 'inclusão', 'equidade', 'liderança')
+              .valid('diversidade', 'inclusão', 'equidade', 'benefícios')
               .required(),
             rating: Joi.number().greater(0).max(5).required().messages({
               'number.base': 'rating must be a number',
