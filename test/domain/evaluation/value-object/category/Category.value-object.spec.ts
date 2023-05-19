@@ -28,16 +28,16 @@ const INVALID_CATEGORY_RATING: ITestInput<number>[] = [
   {
     meta: {
       title: 'with rating less than 1',
-      expected: 'Rating must be between 1 and 5',
+      expected: 'Rating must be between 1 and 10',
     },
     data: 0,
   },
   {
     meta: {
-      title: 'with rating greater than 5',
-      expected: 'Rating must be between 1 and 5',
+      title: 'with rating greater than 10',
+      expected: 'Rating must be between 1 and 10',
     },
-    data: 6,
+    data: 16,
   },
 ];
 
@@ -69,7 +69,7 @@ describe('[Domain][Unit] Tests for Category value-object', () => {
         new Category(UUID, 'diversidade', 0);
       } catch (error) {
         expect(error).toBeInstanceOf(DomainException);
-        expect(error.message).toContain('Rating must be between 1 and 5');
+        expect(error.message).toContain('Rating must be between 1 and 10');
       }
     },
   );

@@ -34,8 +34,10 @@ export class Category implements ICategory {
       );
     }
 
-    if (this.rating < 1 || this.rating > 5) {
-      throw new EvaluationValidationException('Rating must be between 1 and 5');
+    if (this.rating < 1 || this.rating > 10) {
+      throw new EvaluationValidationException(
+        'Rating must be between 1 and 10',
+      );
     }
   }
 
