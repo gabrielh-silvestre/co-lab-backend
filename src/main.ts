@@ -16,14 +16,20 @@ async function bootstrap() {
   const port = configService.get<number>('PORT', 3000);
 
   app.enableCors({
-    origin: (origin) => {
-      const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGINS', []);
-      if (!origin || allowedOrigins.includes(origin)) {
-        return origin;
+    origin: (origin, cb) => {
+      const allowedOriginsStr =
+        configService.getOrThrow<string>('ALLOWED_ORIGINS');
+      const allowedOrigins = allowedOriginsStr.split(',');
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        cb(null, true);
+        return;
       }
 
-      throw new Error('Origin not allowed by CORS');
+      cb(new Error('Not allowed by CORS'));
     },
+    allowedHeaders: '*',
+    methods: '*',
   });
 
   await app.listen(port);
