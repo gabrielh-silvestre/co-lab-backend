@@ -19,6 +19,7 @@ import { AddEvaluationUseCase } from '@company/app/useCase/addEvaluation/AddEval
 import { CreateCompanyUseCase } from '@company/app/useCase/create/CreateCompany.useCase';
 import { FindCompanyByIdUseCase } from '@company/app/useCase/findById/FindCompanyById.useCase';
 import { SearchCompanyUseCase } from '@company/app/useCase/search/SearchCompany.useCase';
+import { GetLatestEvaluatedCompaniesUseCase } from '@company/app/useCase/getLatestEvaluated/GetLatestEvaluatedCompany.useCase';
 
 import { CompanyController } from '@company/infra/controller/Company.controller';
 import { SupabaseAuthGateway } from '@shared/infra/gateway/auth/supabase/SupabaseAuth.gateway';
@@ -53,6 +54,7 @@ describe('[Infra][Integration] Tests for CompanyController', () => {
         AddEvaluationUseCase,
         FindCompanyByIdUseCase,
         SearchCompanyUseCase,
+        GetLatestEvaluatedCompaniesUseCase,
         {
           provide: COMPANY_REPOSITORY,
           useValue: repo,
