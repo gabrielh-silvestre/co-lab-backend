@@ -19,6 +19,8 @@ export interface ICompanyRepository {
   findById(id: string): Promise<ICompany | null>;
   search(query?: CompanyQuery): Promise<ICompany[]>;
 
+  getLatestEvaluated(n: number): Promise<ICompany[]>;
+
   create(company: ICompany): Promise<void>;
   update(company: ICompany): Promise<void>;
 }

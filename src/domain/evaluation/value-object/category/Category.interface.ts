@@ -4,7 +4,7 @@ export type CategoryName =
   | 'diversidade'
   | 'inclusão'
   | 'equidade'
-  | 'liderança';
+  | 'benefícios';
 
 export interface ICategoryProps {
   get id(): string;

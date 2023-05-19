@@ -45,7 +45,7 @@ describe('[Domain][Unit] Tests for CategoryFactory value-object', () => {
         'diversidade',
         'inclusão',
         'equidade',
-        'liderança',
+        'benefícios',
       ]),
     );
   });

@@ -42,6 +42,12 @@ export class CompanyMemoryRepository implements ICompanyRepository {
     return companies;
   }
 
+  async getLatestEvaluated(n: number): Promise<ICompany[]> {
+    return this.companies
+      .sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime())
+      .slice(0, n);
+  }
+
   async create(company: ICompany): Promise<void> {
     this.companies.push(company);
   }

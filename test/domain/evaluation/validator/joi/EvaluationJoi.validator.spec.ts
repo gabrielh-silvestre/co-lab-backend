@@ -153,7 +153,7 @@ const INVALID_EVALUATION_CATEGORIES: ITestInput<IEvaluationProps>[] = [
   {
     meta: {
       title: 'categories has invalid names',
-      expected: 'must be one of [diversidade, inclusão, equidade, liderança]',
+      expected: 'must be one of [diversidade, inclusão, equidade, benefícios]',
     },
     data: {
       ...EVALUATION,
