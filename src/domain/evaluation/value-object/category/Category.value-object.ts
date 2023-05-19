@@ -11,7 +11,7 @@ export class Category implements ICategory {
     'diversidade',
     'inclusão',
     'equidade',
-    'liderança',
+    'benefícios',
   ];
 
   private readonly props: ICategoryProps;

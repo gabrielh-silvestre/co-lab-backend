@@ -23,7 +23,7 @@ export class CategoryFactory {
       'diversidade',
       'inclusão',
       'equidade',
-      'liderança',
+      'benefícios',
     ];
 
     return Array.from({ length: n }, () => {
